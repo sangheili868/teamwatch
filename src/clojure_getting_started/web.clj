@@ -10,7 +10,7 @@
 (defn splash []
   {:status 200
    :headers {"Content-Type" "text/plain"}
-   :body "Hello from Heroku"})
+   :body "Hello from Chris"})
 
 (defroutes app
   (GET "/camel" {{input :input} :params}
