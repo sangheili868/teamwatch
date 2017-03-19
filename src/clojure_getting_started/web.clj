@@ -1,39 +1,18 @@
 (ns clojure-getting-started.web
-  (:require [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
-            [compojure.handler :refer [site]]
+  (:require [compojure.core :refer [defroutes GET ANY]]
             [compojure.route :as route]
-            [clojure.java.io :as io]
+            [compojure.handler :as handler]
             [ring.adapter.jetty :as jetty]
-            [environ.core :refer [env]]
-            [camel-snake-kebab.core :as kebab]))
+            [clojure-getting-started.views.layout :as layout]
+            [clojure-getting-started.views.contents :as contents]))
 
-(defn splash []
-  {:status 200
-   :headers {"Content-Type" "text/plain"}
-   :body "Hello from Chris"})
+(defroutes routes
+  (GET "/" [] (layout/application "Home" (contents/index)))
+  (route/resources "/")
+  (ANY "*" [] (route/not-found (layout/application "Page Not Found" (contents/not-found)))))
 
-(defroutes app
-  (GET "/camel" {{input :input} :params}
-       {:status 200
-        :headers {"Content-Type" "text/plain"}
-        :body (kebab/->CamelCase input)})
-  (GET "/snake" {{input :input} :params}
-       {:status 200
-        :headers {"Content-Type" "text/plain"}
-        :body (kebab/->snake_case input)})
-  (GET "/kebab" {{input :input} :params}
-       {:status 200
-        :headers {"Content-Type" "text/plain"}
-        :body (kebab/->kebab-case input)})
-  (GET "/" []
-       (splash))
-  (ANY "*" []
-       (route/not-found (slurp (io/resource "404.html")))))
+(def application (handler/site routes))
 
-(defn -main [& [port]]
-  (let [port (Integer. (or port (env :port) 5000))]
-    (jetty/run-jetty (site #'app) {:port port :join? false})))
-
-;; For interactive development:
-;; (.stop server)
-;; (def server (-main))
+(defn -main []
+  (let [port (Integer/parseInt (or (System/getenv "PORT") "8080"))]
+    (jetty/run-jetty application {:port port :join? false})))
