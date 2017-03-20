@@ -9,6 +9,7 @@
           (include-js "http://code.angularjs.org/1.2.3/angular.min.js")
           (include-js "js/ui-bootstrap-tpls-0.7.0.min.js")
           (include-js "js/script.js")
+          (include-css "css/styles.css")
 
           [:body
            [:div {:class "container"} content ]]]))
