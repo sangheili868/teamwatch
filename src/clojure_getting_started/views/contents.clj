@@ -127,11 +127,11 @@
 	  [:div {:id "content" }
 	   [:h1 "Enemy Team"]
 	   (for [i (take 6 input)]
-	      [:img {:src (str "imgs/" (replace i #":" "") ".png" )}]
+	      [:img {:src (str "imgs/" (lower-case (replace i #":" "")) ".png" )}]
 	    )
 	   [:h1 "Your Team"]
 	   (for [i (drop 6 input)]
-	     [:img {:src (str "imgs/" (replace i #":" "") ".png" )}]
+	     [:img {:src (str "imgs/" (lower-case (replace i #":" "")) ".png" )}]
 	   )
      [:div {:style "text-align:center; margin-bottom: 100px;" }
 		   [:h1 (str "Suggested Hero: " sugg)]
