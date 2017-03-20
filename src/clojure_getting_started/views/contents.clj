@@ -135,7 +135,7 @@
 	   )
      [:div {:style "text-align:center; margin-bottom: 100px;" }
 		   [:h1 (str "Suggested Hero: " sugg)]
-		   [:img {:src (str "imgs/" (replace sugg #":" "") ".png" )}]
+		   [:img {:src (str "imgs/" (lower-case (replace sugg #":" "")) ".png" )}]
 	     [:form {:action "/"}
 	      (submit-button {:class "btn"} "Select new heroes")
 	     ]
